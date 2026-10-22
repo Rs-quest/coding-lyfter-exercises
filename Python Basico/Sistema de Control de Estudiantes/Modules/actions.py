@@ -23,40 +23,40 @@ def is_valid_name(full_name):
     )
 
 
+
 def enter_student_data(student_list):
-    full_name = input("Enter the student's full name:")
-    while not is_valid_name(full_name):
-        print("Invalid name. Enter a name without numbers.")
+    while True:
         full_name = input("Enter the student's full name: ")
+        while not is_valid_name(full_name):
+            print("Invalid name. Enter a name without numbers.")
+            full_name = input("Enter the student's full name: ")
 
-    student_class =(input("Enter the student's class:"))
-    while not is_valid_section(student_class):
-        print("Invalid section. Use a format like 10A or 11B.")
         student_class = input("Enter the student's class: ")
-    while student_exists(student_list, full_name, student_class):
-        print("This student is already registered in this section.")
+        while not is_valid_section(student_class):
+            print("Invalid section. Use a format like 10A or 11B.")
+            student_class = input("Enter the student's class: ")
 
-    full_name = input("Enter the student's full name: ")
-    while not is_valid_name(full_name):
-        print("Invalid name. Enter a name without numbers.")
-        full_name = input("Enter the student's full name: ")
+        student_class = student_class.upper()
 
-    student_class = input("Enter the student's class: ")
-    while not is_valid_section(student_class):
-        print("Invalid section. Use a format like 10A or 11B.")
-        student_class = input("Enter the student's class: ")
+        if student_exists(student_list, full_name, student_class):
+            print("This student is already registered in this section.")
+        else:
+            break
 
     spanish_grade = validate_grade("Spanish")
     english_grade = validate_grade("English")
     social_studies_grade = validate_grade("Social Studies")
     science_grade = validate_grade("Science")
-    
-    student_data= {"full_name": full_name, 
-                    "student_class": student_class, 
-                    "spanish_grade": spanish_grade, 
-                    "english_grade": english_grade, 
-                    "social_studies_grade": social_studies_grade, 
-                    "science_grade": science_grade}
+
+    student_data = {
+        "full_name": full_name,
+        "student_class": student_class,
+        "spanish_grade": spanish_grade,
+        "english_grade": english_grade,
+        "social_studies_grade": social_studies_grade,
+        "science_grade": science_grade
+    }
+
     return student_data
 
 def validate_grade(subject):
@@ -76,6 +76,9 @@ def student_information(student_list):
     for student in student_list:
         for key, value in student.items():
             print(key, value)
+    if not student_list:
+        print("No students registered yet.")
+        return
 
 def top_GPA_students (student_list):
     if len(student_list) == 0:
@@ -127,12 +130,11 @@ def grade_point_average(student_list):
         print(f"General average: {general_average:.2f}")
 
 
-
 def delete_student_info(student_list, full_name, student_class):
     for student in student_list:
         if (
-            student["full_name"] == full_name
-            and student["student_class"] == student_class
+            student["full_name"].lower() == full_name.lower()
+            and student["student_class"].lower() == student_class.lower()
         ):
             confirmation = input(
                 f"Are you sure you want to delete {full_name} from {student_class}? (yes/no): "
@@ -145,7 +147,9 @@ def delete_student_info(student_list, full_name, student_class):
                 print("Deletion cancelled.")
 
             return
+
     print("Student not found.")
+
 
 
 def underperforming_students(student_list):

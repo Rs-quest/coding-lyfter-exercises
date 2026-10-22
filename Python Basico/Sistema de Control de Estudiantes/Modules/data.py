@@ -2,6 +2,10 @@ import csv
 
 
 def export_data(student_list):
+    if not student_list:
+        print("No hay estudiantes para exportar.")
+        return
+
     with open("students.csv", "w", newline="", encoding="utf-8") as file:
         fieldnames = [
             "full_name",
