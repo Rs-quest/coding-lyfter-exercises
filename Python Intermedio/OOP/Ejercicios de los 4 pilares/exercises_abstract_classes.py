@@ -1,3 +1,4 @@
+import math
 from abc import ABC, abstractmethod
 
 class Shape(ABC):
@@ -10,8 +11,6 @@ class Shape(ABC):
     def calculate_area(self):
         pass
 
-
-import math
 
 class Circle(Shape):
 
@@ -48,3 +47,18 @@ class Rectangle(Shape):
 
     def calculate_perimeter(self):
         return 2 * (self.length + self.width)
+
+# Testing
+
+circle = Circle(5)
+square = Square(4)
+rectangle = Rectangle(6, 3)
+
+print("Circle area:", circle.calculate_area())
+print("Circle perimeter:", circle.calculate_perimeter())
+
+print("Square area:", square.calculate_area())
+print("Square perimeter:", square.calculate_perimeter())
+
+print("Rectangle area:", rectangle.calculate_area())
+print("Rectangle perimeter:", rectangle.calculate_perimeter())
